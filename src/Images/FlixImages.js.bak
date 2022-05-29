@@ -1,0 +1,259 @@
+import React from "react";
+import {
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+  Image,
+  Modal,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+const window = Dimensions.get("window");
+
+/**
+ * @typedef Props
+ * @type {object}
+ * @property {string} source
+ * @property {number} width
+ * @property { import("react-native").ImageStyle } style
+ * @property { import("react-native").ImageStyle } imageStyle
+ * ....
+ */
+/**
+ * @extends {React.PureComponent<Props, {}>}}
+ */
+
+export default class Images extends React.PureComponent {
+  state = {
+    width: this.props.width,
+    height: this.props.height,
+    isLoading: true,
+    showFullImage: false,
+    isError: false,
+  };
+  isShow = false;
+  scale = new Animated.Value(1);
+
+  handleGesture = Animated.event([{ nativeEvent: { scale: this.scale } }], {
+    useNativeDriver: true,
+  });
+  _onGestureStateChange = (event) => {
+    console.log("Gesture", event.nativeEvent);
+    this.scale.setValue(1);
+  };
+
+  componentDidUpdate(_, prevS) {
+    console.log("[Images] _", _.source);
+    const { source } = this.props;
+    if (_.source !== source) {
+      // this.setState({source},()=>this.componentDidMount())
+      this.componentDidMount();
+      // } else if(this.state.sourrce !== prevS.source){
+      //   this.componentDidMount()
+    }
+  }
+
+  componentWillUnmount() {
+    this.isShow = false;
+  }
+
+  onPressShouldFullscreen() {
+    this.props.show && this.setState({ showFullImage: true });
+  }
+
+  componentDidMount() {
+    let isSourceURL = typeof this.props.source === "string";
+    this.isShow = true;
+    if (isSourceURL) {
+      Image.getSize(
+        this.props.source,
+        (width, height) => {
+          if (this.props.width && !this.props.height) {
+            if (!this.isShow) return;
+            this.setState({
+              width: this.props.width,
+              height: height * (this.props.width / width),
+              isLoading: false,
+            });
+          } else if (!this.props.width && this.props.height) {
+            if (!this.isShow) return;
+            this.setState({
+              width: width * (this.props.height / height),
+              height: this.props.height,
+              isLoading: false,
+            });
+          } else {
+            if (!this.isShow) return;
+            this.setState({
+              width: window.width,
+              height: height * (window.width / width),
+              isLoading: false,
+            });
+          }
+        },
+        (err) => {
+          console.log("getSize Image error : ", err);
+          this.setState({ isError: true, isLoading: false });
+        }
+      );
+    } else {
+      const detailSource = Image.resolveAssetSource(
+        this.props.source || require("./errorImage.png")
+      );
+      if (this.props.width && !this.props.height) {
+        if (!this.isShow) return;
+        this.setState({
+          width: this.props.width,
+          height: detailSource.height * (this.props.width / detailSource.width),
+          isLoading: false,
+        });
+      } else if (!this.props.width && this.props.height) {
+        if (!this.isShow) return;
+        this.setState({
+          width: detailSource.width * (this.props.height / detailSource.height),
+          height: this.props.height,
+          isLoading: false,
+        });
+      } else {
+        if (!this.isShow) return;
+        this.setState({
+          width: window.width,
+          height: window.height * (window.width / detailSource.width),
+          isLoading: false,
+        });
+      }
+    }
+  }
+
+  renderModalContent = () => {
+    let isSourceURL =
+      this.state.isError || !this.props.source
+        ? require("./errorImage.png")
+        : typeof this.props.source === "string"
+        ? { uri: this.props.source }
+        : this.props.source;
+    return (
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <Animated.Image
+          source={isSourceURL}
+          style={{
+            width: window.width,
+            height: window.height,
+            transform: [{ scale: this.scale }, { perspective: 200 }],
+          }}
+          resizeMode={"contain"}
+        />
+        <TouchableOpacity
+          onPress={() => this.setState({ showFullImage: false })}
+          style={{
+            backgroundColor: "white",
+            marginRight: 14,
+            borderRadius: 4,
+            position: "absolute",
+            top: 10,
+            right: 10,
+          }}
+        >
+          <Text>X</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  render() {
+    let isSourceURL =
+      this.state.isError || !this.props.source
+        ? require("./errorImage.png")
+        : typeof this.props.source === "string"
+        ? { uri: this.props.source }
+        : this.props.source;
+    const styleSize = this.state.isError
+      ? {
+          width: this.props.width || this.props.height,
+          height: this.props.height || this.props.width,
+        }
+      : {
+          width: this.state.width || this.state.height,
+          height: this.state.height || this.state.width,
+        };
+    if (this.props.children) {
+      if (this.state.isLoading) {
+        return (
+          <View
+            ref={(i) => (this.imagesRef = i)}
+            style={{
+              ...styleSize,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#ccc",
+              ...this.props.style,
+            }}
+          >
+            <ActivityIndicator size={"large"} color="orangered" />
+          </View>
+        );
+      }
+      return (
+        <Image
+          source={isSourceURL}
+          style={{ ...styleSize, ...this.props.style }}
+          imageStyle={{ ...styleSize, ...this.props.imageStyle }}
+          blurRadius={this.props.blurRadius}
+        >
+          {this.props.children}
+        </Image>
+      );
+    } else if (this.state.isLoading) {
+      return (
+        <View
+          style={{
+            ...styleSize,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#ccc",
+            ...this.props.style,
+          }}
+        >
+          <ActivityIndicator size={"large"} color="orangered" />
+        </View>
+      );
+    } else
+      return (
+        <View
+          style={
+            this.state.showFullImage
+              ? { flex: 1, justifyContent: "center", alignItems: "center" }
+              : {}
+          }
+        >
+          <Modal
+            visible={this.state.showFullImage}
+            animationType={"fade"}
+            onRequestClose={() => this.setState({ showFullImage: false })}
+          >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                backgroundColor: "#000000ca",
+              }}
+            >
+              {this.renderModalContent()}
+            </View>
+          </Modal>
+          <TouchableOpacity
+            disabled={!this.props.show}
+            activeOpacity={0.7}
+            onPress={() => this.onPressShouldFullscreen()}
+          >
+            <Image
+              source={isSourceURL}
+              style={{ ...styleSize, ...this.props.style }}
+            />
+          </TouchableOpacity>
+        </View>
+      );
+  }
+}
