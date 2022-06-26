@@ -3,14 +3,10 @@
   "version": "1.0.0",
   "description": "React Native Flix Custom Component",
   "main": "src/index",
-  "module": "src/index",
   "types": "dist/index.d.ts",
-  "react-native": "src/index",
-  "source": "src/index",
   "scripts": {
     "doc": "npx styleguidist server",
-    "doc:build": "npx styleguidist build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "doc:build": "npx styleguidist build"
   },
   "repository": {
     "type": "git",
@@ -31,6 +27,7 @@
   "homepage": "https://github.com/zxccvvv/react-native-flixcomponent#readme",
   "files": [
     "src",
+    "dist",
     "README.md"
   ],
   "eslintConfig": {
@@ -77,7 +74,6 @@
     "prop-types": "^15.8.1",
     "react": "17.0.2",
     "react-art": "17.0.2",
-    "react-docgen-typescript": "^2.2.2",
     "react-dom": "17.0.2",
     "react-native": "0.67.4",
     "react-native-web": "^0.17.7",

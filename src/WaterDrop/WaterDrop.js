@@ -1,6 +1,7 @@
 // @flow
 
 import React from "react";
+import PropTypes from "prop-types";
 import { Animated, View } from "react-native";
 
 const Ring = ({ delay, size, duration, color }) => {
@@ -20,7 +21,6 @@ const Ring = ({ delay, size, duration, color }) => {
     ],
   };
   React.useEffect(() => {
-    console.log("[WaterDrop] ring");
     startAnimation();
   }, [ring]);
 
