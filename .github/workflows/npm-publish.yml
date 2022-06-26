@@ -9,6 +9,28 @@ on:
       - '*'
 
 jobs:
+  generate-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Generate Documentation
+        run: yarn doc:build
+
+      - name: Commit new Documentation
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Generate new documentation ${{github.ref_name}}"
+          git push
+
   publish-npm:
     runs-on: ubuntu-latest
     steps:
@@ -23,17 +45,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn
-
-      - name: Generate Documentation
-        run: yarn doc:build
-
-      - name: Commit new Documentation
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "Generate new documentation ${{github.ref_name}}"
-          git push origin master
         
       - name: Publish to NPM
         run: yarn publish
