@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { Text as RNText, TextProps } from "react-native";
 
 const constan = {
@@ -10,22 +12,6 @@ const constan = {
   Text_XXS: 8,
   Text_Color: "#2A2A2A",
 };
-
-// const myCustomProps = {
-//   /** set fontSize directly */
-//   fontSize: PropTypes.oneOfType([
-//     PropTypes.number,
-//     PropTypes.oneOf(["XXL", "XL", "L", "M", "S", "XS", "XXS"]),
-//   ]),
-//   /** set color of text */
-//   color: PropTypes.string,
-//   /** set space at bottom of text */
-//   mb: PropTypes.bool,
-//   /** set style of text */
-//   style: PropTypes.object,
-//   /** String or Text Element */
-//   children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
-// };
 
 /**
  * Flix Text Component
@@ -49,8 +35,7 @@ const constan = {
  * @param {AllProps} props
  */
 
-const Text = (props) => {
-  let { fontSize, color, mb, children, style = {} } = props;
+const Text = ({ fontSize, color, mb, style = {}, children, ...props }) => {
   let customStyle = {};
 
   if (fontSize == "XXL") fontSize = constan.Text_XXL;
@@ -65,7 +50,7 @@ const Text = (props) => {
   else fontSize = constan.Text_M;
 
   customStyle.color = color || constan.Text_Color;
-  customStyle.fontFamily = constan.Text_Font_Family;
+  // customStyle.fontFamily = constan.Text_Font_Family;
   customStyle.fontSize = fontSize;
   customStyle.marginBottom = mb ? 14 : 0;
 
@@ -76,11 +61,28 @@ const Text = (props) => {
   );
 };
 
-// Text.propTypes = myCustomProps;
+const Text_Props = {
+  /** set fontSize directly */
+  fontSize: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf(["XXL", "XL", "L", "M", "S", "XS", "XXS"]),
+  ]),
+  /** set color of text */
+  color: PropTypes.string,
+  /** set space at bottom of text */
+  mb: PropTypes.bool,
+  /** set style of text */
+  style: PropTypes.object,
+  /** String or Text Element */
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+};
 
-// Text.defaultProps = {
-//   fontSize: constan.Text_M,
-//   color: constan.Text_Color,
-// };
+const Text_Default_Props = {
+  fontSize: constan.Text_M,
+  color: constan.Text_Color,
+};
+
+Text.propTypes = Text_Props;
+Text.defaultProps = Text_Default_Props;
 
 export default Text;

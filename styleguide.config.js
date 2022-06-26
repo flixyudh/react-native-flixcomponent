@@ -13,6 +13,9 @@ module.exports = {
   // components: "src/**/[A-Z]*.js",
   components: "src/**/*.js",
   ignore: ["src/index.js"],
+  propsParser: require("react-docgen-typescript").withCustomConfig(
+    "./tsconfig.json"
+  ).parse,
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, ".js");
     return `import { ${name} } from 'FlixComponent';`;

@@ -58,7 +58,7 @@ const Ring = ({ delay, size, duration, color }) => {
  * @author [Yudi Iswandi (Flix)](https://github.com/zxccvvv)
  *
  * @param {Object} props
- * @param {number} [props.delay=750] - delay of animation component
+ * @param {number} [props.delay=850] - delay of animation component
  * @param {number} [props.size=20] - size of Loader
  * @param {string} [props.color='#5F952F'] - color of Loader
  */
@@ -82,19 +82,22 @@ const WaterDrop = ({ delay = 750, size = 20, color = "#5F952F" }) => {
   );
 };
 
-// WaterDrop.propTypes = {
-//   /** Delay of animation component */
-//   delay: PropTypes.number,
-//   /** Size of Loader */
-//   size: PropTypes.number,
-//   /** Color of Loader */
-//   color: PropTypes.string,
-// };
+const WaterDropPropsType = {
+  /** Delay of animation component */
+  delay: PropTypes.number,
+  /** Size of Loader */
+  size: PropTypes.number,
+  /** Color of Loader */
+  color: PropTypes.string,
+};
 
-// WaterDrop.defaultProps = {
-//   delay: 750,
-//   size: 20,
-//   color: "#5F952F",
-// };
+const WaterDropPropsDefault = {
+  delay: 750,
+  size: 20,
+  color: "#5F952F",
+};
+
+WaterDrop.propTypes = WaterDropPropsType;
+WaterDrop.defaultProps = WaterDropPropsDefault;
 
 export default WaterDrop;

@@ -1,17 +1,17 @@
 import React from "react";
-import { Animated, Dimensions, FlatList, View } from "react-native";
+import PropTypes from "prop-types";
+import {
+  Animated,
+  Dimensions,
+  FlatList,
+  View,
+  FlatListProps,
+} from "react-native";
 import Images from "../Images/Images";
 
 const { width, height } = Dimensions.get("window");
 
 const WrappedFlatlist = Animated.createAnimatedComponent(FlatList);
-
-// const SwiperProps = {
-//   /** collection of Images */
-//   data: PropTypes.arrayOf(PropTypes.string).isRequired,
-//   /** set style inside component */
-//   contentStyle: PropTypes.object,
-// };
 
 /**
  * @typedef Props
@@ -19,8 +19,10 @@ const WrappedFlatlist = Animated.createAnimatedComponent(FlatList);
  * @prop {import("react-native").ViewStyle } contentStyle
  * @prop {string[]} data
  */
+
 /**
- * @extends {React.PureComponent<Props, {}>}}
+ * @typedef {FlatListProps & Props} AllProps
+ * @extends {React.PureComponent<AllProps, {}>}}
  */
 class Swiper extends React.PureComponent {
   state = {
@@ -125,10 +127,6 @@ class Swiper extends React.PureComponent {
     );
   }
 
-  /**
-   * End list function to render component
-   */
-
   render() {
     return (
       <View>
@@ -151,10 +149,8 @@ class Swiper extends React.PureComponent {
             [{ nativeEvent: { contentOffset: { x: this.animatedValue } } }],
             { useNativeDriver: true }
           )}
-          onScrollEndDrag={(x) => {
-            console.log("onScrollEndDrag");
-            this.onScrollEnd(x);
-          }}
+          onScrollEndDrag={(x) => this.onScrollEnd(x)}
+          {...this.props}
         />
         {this._renderDot()}
       </View>
@@ -162,6 +158,13 @@ class Swiper extends React.PureComponent {
   }
 }
 
-// Swiper.propTypes = SwiperProps;
+const SwiperProps = {
+  /** collection of Images */
+  data: PropTypes.arrayOf(PropTypes.string).isRequired,
+  /** set style applying every item */
+  contentStyle: PropTypes.object,
+};
+
+Swiper.propTypes = SwiperProps;
 
 export default Swiper;
