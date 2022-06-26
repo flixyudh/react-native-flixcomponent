@@ -1,8 +1,21 @@
-import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
+// import PropTypes from "prop-types";
+import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Dimensions, Image, View } from "react-native";
 
 const window = Dimensions.get("window");
+
+// const ImageProps = {
+//   /** set Width of Image */
+//   width: PropTypes.number,
+//   /** set Height of Image */
+//   height: PropTypes.number,
+//   /** replace `<ActivityIndicator/>` with `<WaterDrop/>` when loading image */
+//   loadingWaterDrop: PropTypes.bool,
+// };
+
+// const ImageDefaultProps = {
+//   loadingWaterDrop: false,
+// };
 
 /**
  * @author [Flix](https://github.com/zxccvvv)
@@ -14,20 +27,6 @@ const window = Dimensions.get("window");
  * @param {boolean} props.loadingWaterDrop - replace ActivityIndicator with WaterDrop when loading image
  * @public
  */
-
-const ImageProps = {
-  /** set Width of Image */
-  width: PropTypes.number,
-  /** set Height of Image */
-  height: PropTypes.number,
-  /** replace `<ActivityIndicator/>` with `<WaterDrop/>` when loading image */
-  loadingWaterDrop: PropTypes.bool,
-};
-
-const ImageDefaultProps = {
-  loadingWaterDrop: false,
-};
-
 const Images = (props) => {
   const [width, setWidth] = useState(props.width);
   const [height, setHeight] = useState(props.height);
@@ -153,7 +152,7 @@ const Images = (props) => {
   }
 };
 
-Images.propTypes = ImageProps;
-Images.defaultProps = ImageDefaultProps;
+// Images.propTypes = ImageProps;
+// Images.defaultProps = ImageDefaultProps;
 
 export default Images;

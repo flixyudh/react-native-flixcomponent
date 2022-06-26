@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-import React from "react";
 import { Text as RNText, TextProps } from "react-native";
 
 const constan = {
@@ -13,32 +11,42 @@ const constan = {
   Text_Color: "#2A2A2A",
 };
 
-const myCustomProps = {
-  /** set fontSize directly */
-  fontSize: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.oneOf(["XXL", "XL", "L", "M", "S", "XS", "XXS"]),
-  ]),
-  /** set color of text */
-  color: PropTypes.string,
-  /** set space at bottom of text */
-  mb: PropTypes.bool,
-  /** set style of text */
-  style: PropTypes.object,
-  /** String or Text Element */
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
-};
+// const myCustomProps = {
+//   /** set fontSize directly */
+//   fontSize: PropTypes.oneOfType([
+//     PropTypes.number,
+//     PropTypes.oneOf(["XXL", "XL", "L", "M", "S", "XS", "XXS"]),
+//   ]),
+//   /** set color of text */
+//   color: PropTypes.string,
+//   /** set space at bottom of text */
+//   mb: PropTypes.bool,
+//   /** set style of text */
+//   style: PropTypes.object,
+//   /** String or Text Element */
+//   children: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
+// };
 
 /**
  * Flix Text Component
  * @author [Yudi Iswandi (Flix)](https://github.com/zxccvvv)
  *
- * @param {object | TextProps} props
- * @param {('XXL'|'XL'|'L'|'M'|'S'|'XS'|'XXS'|number)} [props.fontSize=14]
- * @param {boolean} [props.color]
- * @param {boolean} [props.mb]
- * @param {object} [props.style]
- * @param {JSX.Element|string} props.children
+ * @typedef FlixTextProps
+ * @type {Object}
+ * @prop {('XXL'|'XL'|'L'|'M'|'S'|'XS'|'XXS'|number)} fontSize
+ * @prop {boolean} color
+ * @prop {boolean} mb
+ * @prop {object} style
+ * @prop {JSX.Element|string} children
+ */
+
+/**
+ * @typedef {TextProps & FlixTextProps} AllProps
+ */
+
+/**
+ *
+ * @param {AllProps} props
  */
 
 const Text = (props) => {
@@ -68,11 +76,11 @@ const Text = (props) => {
   );
 };
 
-Text.propTypes = myCustomProps;
+// Text.propTypes = myCustomProps;
 
-Text.defaultProps = {
-  fontSize: constan.Text_M,
-  color: constan.Text_Color,
-};
+// Text.defaultProps = {
+//   fontSize: constan.Text_M,
+//   color: constan.Text_Color,
+// };
 
 export default Text;

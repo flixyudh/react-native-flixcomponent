@@ -1,18 +1,17 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { Animated, Dimensions, FlatList, View } from "react-native";
-import Images from "../Images";
+import Images from "../Images/Images";
 
 const { width, height } = Dimensions.get("window");
 
 const WrappedFlatlist = Animated.createAnimatedComponent(FlatList);
 
-const SwiperProps = {
-  /** collection of Images */
-  data: PropTypes.arrayOf(PropTypes.string).isRequired,
-  /** set style inside component */
-  contentStyle: PropTypes.object,
-};
+// const SwiperProps = {
+//   /** collection of Images */
+//   data: PropTypes.arrayOf(PropTypes.string).isRequired,
+//   /** set style inside component */
+//   contentStyle: PropTypes.object,
+// };
 
 /**
  * @typedef Props
@@ -163,6 +162,6 @@ class Swiper extends React.PureComponent {
   }
 }
 
-Swiper.propTypes = SwiperProps;
+// Swiper.propTypes = SwiperProps;
 
 export default Swiper;

@@ -10,7 +10,9 @@ module.exports = {
   },
   usageMode: "expand",
   require: ["@babel/polyfill"],
-  components: "src/**/[A-Z]*.js",
+  // components: "src/**/[A-Z]*.js",
+  components: "src/**/*.js",
+  ignore: ["src/index.js"],
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, ".js");
     return `import { ${name} } from 'FlixComponent';`;

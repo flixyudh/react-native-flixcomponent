@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from "prop-types";
 import React from "react";
 import { Animated, View } from "react-native";
 
@@ -83,19 +82,19 @@ const WaterDrop = ({ delay = 750, size = 20, color = "#5F952F" }) => {
   );
 };
 
-WaterDrop.propTypes = {
-  /** Delay of animation component */
-  delay: PropTypes.number,
-  /** Size of Loader */
-  size: PropTypes.number,
-  /** Color of Loader */
-  color: PropTypes.string,
-};
+// WaterDrop.propTypes = {
+//   /** Delay of animation component */
+//   delay: PropTypes.number,
+//   /** Size of Loader */
+//   size: PropTypes.number,
+//   /** Color of Loader */
+//   color: PropTypes.string,
+// };
 
-WaterDrop.defaultProps = {
-  delay: 750,
-  size: 20,
-  color: "#5F952F",
-};
+// WaterDrop.defaultProps = {
+//   delay: 750,
+//   size: 20,
+//   color: "#5F952F",
+// };
 
 export default WaterDrop;
