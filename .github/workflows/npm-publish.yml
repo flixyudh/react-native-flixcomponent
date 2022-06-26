@@ -12,13 +12,30 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
-      - run: yarn
-      - run: yarn doc:build
-      - run: yarn publish
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Generate Documentation
+        run: yarn doc:build
+
+      - name: Commit new Documentation
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Generate new documentation "
+          git push
+        
+      - name: Publish to NPM
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
