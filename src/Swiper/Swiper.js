@@ -101,7 +101,7 @@ class Swiper extends React.PureComponent {
       const expand = interpolateFunct([1, 2, 1]);
       return (
         <Animated.View
-          key={"dot" + el.toString()}
+          key={"dot" + el + index.toString()}
           style={{
             width: 6,
             backgroundColor: "#D3D3D3",

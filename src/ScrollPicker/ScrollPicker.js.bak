@@ -1,0 +1,160 @@
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { View, Text, FlatList } from "react-native";
+import dayjs from "dayjs";
+import localeData from "dayjs/plugin/localeData";
+
+import "dayjs/locale/id";
+import Picker from "./Picker";
+
+dayjs.extend(localeData);
+dayjs().locale("id").format();
+
+const range = (start, stop, step = 1) =>
+  Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
+
+const generateDateStructure = (date = new Date()) => {
+  const test = {
+    days: range(1, dayjs(date).daysInMonth()),
+    months: dayjs.months(),
+    years: range(1930, dayjs().add(20, "year").get("year")),
+  };
+  return test;
+};
+
+const RenderBody = (props) => {
+  const {
+    data,
+    showDate,
+    firstCategoryStyle,
+    lastCategoryStyle,
+    onChange,
+    highlightStyle: propsHighlightStyle,
+    selectedIndex,
+  } = props;
+  if (!data && !showDate)
+    throw new TypeError(
+      `react-native-flixcomponent [ScrollPicker] => "showDate" or "data" props is required!`
+    );
+
+  if (Array.isArray(data)) {
+    return (
+      <View style={{ flex: 1, flexDirection: "row" }}>
+        <Picker
+          data={data}
+          selectedIndex={selectedIndex}
+          onChange={(indexPicker) => {
+            onChange && onChange(indexPicker);
+          }}
+          highlightStyle={{ backgroundColor: "#f9976c" }}
+        />
+      </View>
+    );
+  } else {
+    const res = Object.keys(data).map((category, indexCategory) => {
+      let highlightStyle = {};
+      if (indexCategory === 0) {
+        if (firstCategoryStyle) highlightStyle = firstCategoryStyle;
+        else
+          highlightStyle = {
+            borderTopLeftRadius: 30,
+            borderBottomLeftRadius: 30,
+            backgroundColor: "#f9976c",
+          };
+      } else if (indexCategory === Object.keys(data).length - 1) {
+        if (lastCategoryStyle) highlightStyle = lastCategoryStyle;
+        else
+          highlightStyle = {
+            borderTopRightRadius: 30,
+            borderBottomRightRadius: 30,
+            backgroundColor: "#f9976c",
+          };
+      } else {
+        if (propsHighlightStyle) highlightStyle = propsHighlightStyle;
+        else highlightStyle = { backgroundColor: "#f9976c" };
+      }
+      return (
+        <Picker
+          key={category + indexCategory}
+          data={data[category]}
+          selectedIndex={data[category][selectedIndex]}
+          onChange={(indexPicker) => {
+            onChange && onChange(indexPicker, category);
+          }}
+          highlightStyle={highlightStyle}
+        />
+      );
+    });
+
+    return <View style={{ flex: 1, flexDirection: "row" }}>{res}</View>;
+  }
+};
+
+const ScrollPicker = (props) => {
+  const data = props?.data || generateDateStructure();
+  const [value, setValue] = useState(null);
+
+  const renderCounter = useRef(0);
+  renderCounter.current = renderCounter.current + 1;
+  console.log(
+    "[ScrollPicker] renderCounter",
+    renderCounter.current,
+    "with data:",
+    data
+  );
+
+  const onChange = (indexPicker, category) => {
+    if (category) {
+      //data props is object
+      const tempValue = { ...value };
+      tempValue[category] = data[category][indexPicker];
+      setValue(value);
+    } else {
+      setValue(data[indexPicker]);
+    }
+  };
+
+  useEffect(() => {
+    //set default value on initial render
+    if (Array.isArray(data)) {
+      setValue(data[0]);
+    } else {
+      const tempValue = {};
+      Object.keys(data).map((x) => (tempValue[x] = data[x][0]));
+      setValue(tempValue);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("[ScrollPicker] JANGAN LIAT VALUE INI", value);
+    if (value !== null) {
+      if (props.onChange) props.onChange(value);
+    }
+  }, [value]);
+
+  const RenderHeader = () => {
+    if (React.isValidElement(props.headerComponent))
+      return props.headerComponent;
+    else return null;
+  };
+
+  const RenderFooter = () => {
+    if (React.isValidElement(props.footerComponent))
+      return props.footerComponent;
+    else return null;
+  };
+
+  return (
+    <View style={{ flex: 1, ...props.style }}>
+      <RenderHeader />
+      <RenderBody
+        {...props}
+        value={value}
+        data={data}
+        onChange={(a, b) => onChange(a, b)}
+      />
+      <RenderFooter />
+    </View>
+  );
+};
+
+export default ScrollPicker;
