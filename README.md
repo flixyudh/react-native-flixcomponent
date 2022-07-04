@@ -93,7 +93,7 @@ export default () => {
 };
 ```
 
-##### ScrollPicker Preview
+##### ScrollPicker Preview [_on development_]
 
 ![Picker Preview](./assets/docsPreview/scrollpickerPreview.png "Images")
 
