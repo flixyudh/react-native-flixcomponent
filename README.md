@@ -3,7 +3,7 @@
 ## Getting Started
 
 - [Installation](#installation)
-- [Documentation](#https://zxccvvv.github.io/react-native-flixcomponent/) : Detail props, preview and example also you can **_try it_** at `View Code`
+- [Documentation](https://zxccvvv.github.io/react-native-flixcomponent/) : Detail props, preview and example also you can **_try it_** at `View Code`
 - [Components](#components)
 
   | Component                     | Detail                                                                 |
