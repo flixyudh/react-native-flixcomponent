@@ -9,6 +9,5 @@ import { Picker } from "FlixComponent";
   style={{ maxHeight: 300 }}
   labelKey="lab"
   highlightStyle={{ backgroundColor: "blue", borderRadius: 15 }}
-  onChange={(val) => console.log("read", val)}
 />;
 ```

@@ -2,8 +2,41 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { ActivityIndicator, Dimensions, Image, View } from "react-native";
+import { WaterDrop } from "../index";
 
 const window = Dimensions.get("window");
+
+const RenderWithLoading = ({
+  children,
+  isLoading,
+  width,
+  height,
+  ...props
+}) => {
+  const LoadingIndicator = () => {
+    if (props.loadingWaterDrop) return <WaterDrop />;
+    else return <ActivityIndicator size={"large"} color="orangered" />;
+  };
+
+  if (isLoading) {
+    return (
+      <View
+        style={[
+          {
+            width,
+            height,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#ccc",
+          },
+          props.style,
+        ]}
+      >
+        <LoadingIndicator />
+      </View>
+    );
+  } else return children;
+};
 
 /**
  * @author [Flix](https://github.com/zxccvvv)
@@ -84,37 +117,9 @@ const Images = (props) => {
       InitImage();
   }, [props.width, props.height]);
 
-  const RenderWithLoading = ({ children }) => {
-    if (isLoading) {
-      return (
-        <View
-          style={[
-            {
-              width,
-              height,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#ccc",
-            },
-            props.style,
-          ]}
-        >
-          {/* {props?.loadingWaterDrop ? (
-            <WaterDrop />
-          ) : (
-            <ActivityIndicator size={"large"} color="orangered" />
-          )} */}
-          <ActivityIndicator size={"large"} color="orangered" />
-        </View>
-      );
-    } else {
-      return children;
-    }
-  };
-
   if (props.children)
     return (
-      <RenderWithLoading>
+      <RenderWithLoading isLoading={isLoading} {...props}>
         <Image
           source={typeof source === "string" ? { uri: source } : source}
           {...props}
@@ -127,7 +132,12 @@ const Images = (props) => {
     );
   else {
     return (
-      <RenderWithLoading>
+      <RenderWithLoading
+        isLoading={isLoading}
+        {...props}
+        width={width}
+        height={height}
+      >
         <Image
           source={typeof source === "string" ? { uri: source } : source}
           style={[{ width, height }, props.style]}

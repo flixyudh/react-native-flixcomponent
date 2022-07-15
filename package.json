@@ -5,6 +5,8 @@
   "main": "src/index",
   "types": "dist/index.d.ts",
   "scripts": {
+    "prepare": "npm run build-ts",
+    "build-ts": "tsc",
     "doc": "npx styleguidist server",
     "doc:build": "npx styleguidist build"
   },

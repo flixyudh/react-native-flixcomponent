@@ -5,6 +5,7 @@ import localeData from "dayjs/plugin/localeData";
 
 import "dayjs/locale/id";
 import { Picker } from "../index";
+import PropTypes from "prop-types";
 
 dayjs.extend(localeData);
 dayjs().locale("id").format();
@@ -14,137 +15,128 @@ const range = (start, stop, step = 1) =>
 
 const generateDateStructure = (date = new Date()) => {
   const test = {
-    days: range(1, dayjs(date).daysInMonth()),
-    months: dayjs.months(),
-    years: range(1930, dayjs().add(20, "year").get("year")),
+    day: range(1, dayjs(date).daysInMonth()),
+    month: dayjs.months(),
+    year: range(1930, dayjs().add(20, "year").get("year")),
   };
   return test;
 };
 
-const RenderBody = () => {};
-
-/**
- * @deprecated Do not use!!
- */
-const ScrollPicker = (props) => {
-  const data = props?.data || generateDateStructure();
-  const [value, setValue] = useState("asd");
-
-  const renderCounter = useRef(0);
-  renderCounter.current = renderCounter.current + 1;
-  console.log(
-    "[ScrollPicker] renderCounter",
-    renderCounter.current,
-    "with data:",
-    data
-  );
-
-  const onChange = (indexPicker, category) => {
-    if (category) {
-      //data props is object
-      console.log("[ScrollPicker] value", value);
-      //   const tempValue = { ...value };
-      //   console.log("[ScrollPicker] tempValue", tempValue);
-      //   data[category].map((x, i) => {
-      //     if (i === indexPicker) tempValue[category] = x;
-      //   });
-      //   setValue(tempValue);
-      // } else {
-      //   setValue(data[indexPicker]);
-    }
+const RenderBody = (props) => {
+  const handleOnChange = (valueCategory, category) => {
+    if (props.value === null) return;
+    const res = { ...props.value };
+    res[category] = valueCategory;
+    if (props.onChange) props.onChange(res);
   };
 
+  return (
+    <View style={{ flexDirection: "row", flex: 1 }}>
+      {Object.keys(props.data).map((category, index) => (
+        <Picker
+          key={category + index}
+          data={props.data[category]}
+          onChange={(valueCategory) => handleOnChange(valueCategory, category)}
+          highlightStyle={{ backgroundColor: "#f50", borderRadius: 15 }}
+        />
+      ))}
+    </View>
+  );
+};
+
+/**
+ * @author [Yudi Iswandi (Flix)](https://github.com/zxccvvv)
+ *
+ * @param {Object} props
+ * @param {Object<string, Array<string|number>|Array<{label:string}>|Object[]>} props.data - Object of Array items to show as multiple label
+ * @param {boolean} props.showDate - Object of Array contain day, month and year items
+ * @param {import("react").ReactElement} [props.headerComponent] - React JSX to show on top of component
+ * @param {import("react").ReactElement} [props.footerComponent] - React JSX to show on bottom of component
+ * @param {function} [props.onChange] - callback when value changed
+ * @param {import("react-native").ViewProps} [props.style] - Set custom style of root view ScrollPicker
+ */
+
+const ScrollPicker = (props) => {
+  const data = props?.data || generateDateStructure();
+  const [value, setValue] = useState(null);
+
   useEffect(() => {
-    if (!props?.data && !props?.showDate)
-      throw new TypeError(
-        `react-native-flixcomponent [ScrollPicker] => "showDate" or "data" props is required!`
-      );
-    //set default value on initial render
-    if (Array.isArray(data)) {
-      setValue(data[0]);
-    } else {
-      const tempValue = {};
-      Object.keys(data).map((x) => (tempValue[x] = data[x][0]));
-      setValue(tempValue);
-    }
+    let res = {};
+    Object.keys(data).forEach((x) => {
+      res[x] = data[x][0];
+    });
+    setValue(res);
   }, []);
 
-  useEffect(() => {
-    console.log("[ScrollPicker] usf", value);
-    if (value !== null) {
-      if (props.onChange) props.onChange(value);
-    }
-  }, [value]);
-
   const RenderHeader = () => {
-    if (React.isValidElement(props.headerComponent))
+    if (
+      typeof props.headerComponent == "function" &&
+      React.isValidElement(props.headerComponent())
+    )
+      return props.headerComponent();
+    else if (React.isValidElement(props.headerComponent))
       return props.headerComponent;
     else return null;
   };
 
-  const RenderBody = () => {
-    const ShowBody = Array.isArray(data) ? (
-      <Picker
-        data={data}
-        onChange={(indexPicker) => {
-          onChange(indexPicker);
-        }}
-        highlightStyle={{ backgroundColor: "#f9976c" }}
-      />
-    ) : (
-      Object.keys(data).map((category, indexCategory) => {
-        let highlightStyle = {};
-        if (indexCategory === 0) {
-          if (props.firstCategoryStyle)
-            highlightStyle = props.firstCategoryStyle;
-          else
-            highlightStyle = {
-              borderTopLeftRadius: 30,
-              borderBottomLeftRadius: 30,
-              backgroundColor: "#f9976c",
-            };
-        } else if (indexCategory === Object.keys(data).length - 1) {
-          if (props.lastCategoryStyle) highlightStyle = props.lastCategoryStyle;
-          else
-            highlightStyle = {
-              borderTopRightRadius: 30,
-              borderBottomRightRadius: 30,
-              backgroundColor: "#f9976c",
-            };
-        } else {
-          if (props.highlightStyle) highlightStyle = props.highlightStyle;
-          else highlightStyle = { backgroundColor: "#f9976c" };
-        }
-        return (
-          <Picker
-            key={category + indexCategory}
-            data={data[category]}
-            onChange={(indexPicker) => {
-              onChange(indexPicker, category);
-            }}
-            highlightStyle={highlightStyle}
-          />
-        );
-      })
-    );
-    return <View style={{ flex: 1, flexDirection: "row" }}>{ShowBody}</View>;
-  };
-
   const RenderFooter = () => {
-    if (React.isValidElement(props.footerComponent))
+    if (
+      typeof props.footerComponent == "function" &&
+      React.isValidElement(props.footerComponent())
+    )
+      return props.footerComponent();
+    else if (React.isValidElement(props.footerComponent))
       return props.footerComponent;
     else return null;
   };
 
-  const RenderMemoBody = useMemo(() => <RenderBody />, []);
+  useEffect(() => {
+    if (props.onChange) props.onChange(value);
+  }, [value]);
 
   return (
     <View style={{ flex: 1, ...props.style }}>
       <RenderHeader />
-      {RenderMemoBody}
+      <RenderBody onChange={(res) => setValue(res)} data={data} value={value} />
       <RenderFooter />
     </View>
   );
 };
+
+const ScrollPickerProps = {
+  /** Object of Array items to show as multiple label */
+  data: PropTypes.objectOf(
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.object,
+      ])
+    )
+  ),
+  /**
+   * @param boolean
+   *
+   * <br>Object of Array contain <pre>{day:[currentDayOfMonth], month:[Jan-Dec], year:[1980-(current year+20)]}</pre>
+   */
+  showDate: function (props, propName, componentName) {
+    if (!props["data"] && !props[propName]) {
+      return new Error(`data OR ${propName} is required in ${componentName}.`);
+    }
+  },
+  /** Callback when value changed */
+  onChange: PropTypes.func,
+  /** Set custom style of view ScrollPicker */
+  style: PropTypes.object,
+  /** Custom layout on top of component */
+  headerComponent: PropTypes.element,
+  /** Custom layout on bottom of component */
+  footerComponent: PropTypes.element,
+};
+
+const ScrollPickerDefaultProps = {};
+
+ScrollPicker.propTypes = ScrollPickerProps;
+ScrollPicker.defaultProps = ScrollPickerDefaultProps;
 
 export default ScrollPicker;

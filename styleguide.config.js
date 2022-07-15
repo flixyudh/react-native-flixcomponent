@@ -5,7 +5,7 @@ const { version } = require("./package");
 module.exports = {
   styleguideDir: "docs",
   ribbon: {
-    url: "https://github.com/zxccvvv/",
+    url: "https://github.com/zxccvvv/react-native-flixcomponent",
     text: "Fork Me",
   },
   usageMode: "expand",
@@ -13,6 +13,11 @@ module.exports = {
   // components: "src/**/[A-Z]*.js",
   components: "src/**/*.js",
   ignore: ["src/index.js"],
+  template: {
+    favicon: "assets/logo.png",
+  },
+  title: "React Native Flix Component",
+  version: `made with a lot of ❤️ and ☕ (v${version})`,
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, ".js");
     return `import { ${name} } from 'FlixComponent';`;
@@ -20,7 +25,6 @@ module.exports = {
   moduleAliases: {
     FlixComponent: path.resolve(__dirname, "src"),
   },
-  version,
   webpackConfig: {
     resolve: {
       // auto resolves any react-native import as react-native-web
