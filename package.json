@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/zxccvvv/react-native-flixcomponent/issues"
   },
-  "homepage": "https://github.com/zxccvvv/react-native-flixcomponent#readme",
+  "homepage": "https://zxccvvv.github.io/react-native-flixcomponent",
   "files": [
     "src/**/*.js",
     "dist",
