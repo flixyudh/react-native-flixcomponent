@@ -4,6 +4,16 @@ import ScrollPicker from "./ScrollPicker/ScrollPicker";
 import Swiper from "./Swiper/Swiper";
 import Text from "./Text/Text";
 import Toast from "./Toast/Toast";
+import Accordion from "./Accordion/Accordion";
 import WaterDrop from "./WaterDrop/WaterDrop";
 
-export { WaterDrop, Text, Swiper, Images, ScrollPicker, Picker, Toast };
+export {
+  WaterDrop,
+  Text,
+  Swiper,
+  Images,
+  ScrollPicker,
+  Picker,
+  Toast,
+  Accordion,
+};

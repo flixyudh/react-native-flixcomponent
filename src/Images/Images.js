@@ -1,7 +1,13 @@
 // import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { ActivityIndicator, Dimensions, Image, View } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  View,
+  ViewProps,
+} from "react-native";
 import { WaterDrop } from "../index";
 
 const window = Dimensions.get("window");
@@ -46,6 +52,7 @@ const RenderWithLoading = ({
  * @param {string|number} props.source - source of the Image
  * @param {number} props.width - set `Width` of image
  * @param {number} props.height - set `Height` of image
+ * @param {ViewProps} props.style - set `Height` of image
  * @param {boolean} props.loadingWaterDrop - replace `ActivityIndicator` with `WaterDrop` when loading image
  */
 const Images = (props) => {
@@ -124,7 +131,6 @@ const Images = (props) => {
       <RenderWithLoading isLoading={isLoading} {...props}>
         <Image
           source={typeof source === "string" ? { uri: source } : source}
-          {...props}
           style={[{ width, height }, props.style]}
           imageStyle={[{ width, height }, props.imageStyle]}
         >
@@ -134,16 +140,10 @@ const Images = (props) => {
     );
   else {
     return (
-      <RenderWithLoading
-        isLoading={isLoading}
-        {...props}
-        width={width}
-        height={height}
-      >
+      <RenderWithLoading isLoading={isLoading} width={width} height={height}>
         <Image
           source={typeof source === "string" ? { uri: source } : source}
           style={[{ width, height }, props.style]}
-          {...props}
         />
       </RenderWithLoading>
     );

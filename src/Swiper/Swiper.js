@@ -160,7 +160,9 @@ class Swiper extends React.PureComponent {
 
 const SwiperProps = {
   /** collection of Images */
-  data: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  ).isRequired,
   /** set style applying every item */
   contentStyle: PropTypes.object,
 };

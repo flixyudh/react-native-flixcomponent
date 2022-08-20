@@ -8,12 +8,13 @@
 
   | Component                     | Detail                                                                 |
   | ----------------------------- | ---------------------------------------------------------------------- |
-  | [Images](#images)             | [• Preview](#images-preview) <br> [• Usage](#images-usage)             |
-  | [Picker](#picker)             | [• Preview](#picker-preview) <br> [• Usage](#picker-usage)             |
-  | [ScrollPicker](#scrollpicker) | [• Preview](#scrollpicker-preview) <br> [• Usage](#scrollpicker-usage) |
-  | [Swiper](#swiper)             | [• Preview](#swiper-preview) <br> [• Usage](#swiper-usage)             |
-  | [Text](#text)                 | [• Preview](#text-preview) <br> [• Usage](#text-usage)                 |
-  | [WaterDrop](#waterdrop)       | [• Preview](#waterdrop-preview) <br> [• Usage](#waterdrop-usage)       |
+  | [Accordion](#accordion)       | [• Usage](#images-usage) <br> [• Preview](#accordion-preview)          |
+  | [Images](#images)             | [• Usage](#images-usage) <br> [• Preview](#images-preview)             |
+  | [Picker](#picker)             | [• Usage](#picker-usage) <br> [• Preview](#picker-preview)             |
+  | [ScrollPicker](#scrollpicker) | [• Usage](#scrollpicker-usage) <br> [• Preview](#scrollpicker-preview) |
+  | [Swiper](#swiper)             | [• Usage](#swiper-usage) <br> [• Preview](#swiper-preview)             |
+  | [Text](#text)                 | [• Usage](#text-usage) <br> [• Preview](#text-preview)                 |
+  | [WaterDrop](#waterdrop)       | [• Usage](#waterdrop-usage) <br> [• Preview](#waterdrop-preview)       |
 
 ### Installation
 
@@ -26,6 +27,40 @@ yarn add react-native-flixcomponent
 ```
 
 ### Components
+
+#### Accordion
+
+> Pure JS Accordion component with animated transition
+
+##### Accordion Usage
+
+```js
+import React from "react";
+import { Text, TouchableOpacity } from "react-native";
+import { Accordion } from "FlixComponent";
+
+export default () => {
+  const [IsExpand, setIsExpand] = React.useState(false);
+  return (
+    <Accordion
+      expanded={IsExpand}
+      renderTitle={
+        <TouchableOpacity onPress={() => setIsExpand(!IsExpand)}>
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            {IsExpand ? "Click Me to hide" : "Click Me to expand"}
+          </Text>
+        </TouchableOpacity>
+      }
+    >
+      <Text>detail</Text>
+    </Accordion>;
+  );
+};
+```
+
+##### Accordion Preview
+
+![Accordion Preview](./assets/docsPreview/accordionPreview.png "Images")
 
 #### Images
 
