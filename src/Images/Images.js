@@ -14,6 +14,7 @@ const RenderWithLoading = ({
   ...props
 }) => {
   const LoadingIndicator = () => {
+    if (props.renderLoading) return props.renderLoading;
     if (props.loadingWaterDrop) return <WaterDrop />;
     else return <ActivityIndicator size={"large"} color="orangered" />;
   };
@@ -42,6 +43,7 @@ const RenderWithLoading = ({
  * @author [Flix](https://github.com/zxccvvv)
  *
  * @param {Object} props
+ * @param {string|number} props.source - source of the Image
  * @param {number} props.width - set `Width` of image
  * @param {number} props.height - set `Height` of image
  * @param {boolean} props.loadingWaterDrop - replace `ActivityIndicator` with `WaterDrop` when loading image
@@ -149,6 +151,8 @@ const Images = (props) => {
 };
 
 const ImageProps = {
+  /** set `Width` of image */
+  source: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   /** set `Width` of image */
   width: PropTypes.number,
   /** set `Height` of image */

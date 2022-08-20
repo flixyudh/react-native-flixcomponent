@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/zxccvvv/react-native-flixcomponent#readme",
   "files": [
-    "src",
+    "src/**/*.js",
     "dist",
     "README.md"
   ],
