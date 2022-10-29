@@ -13,6 +13,7 @@ module.exports = {
   // components: "src/**/[A-Z]*.js",
   components: "src/**/*.js",
   ignore: ["src/index.js"],
+  skipComponentsWithoutExample: true,
   template: {
     favicon: "assets/logo.png",
   },

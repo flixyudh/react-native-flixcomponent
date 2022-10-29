@@ -6,6 +6,7 @@ import Text from "./Text/Text";
 import Toast from "./Toast/Toast";
 import Accordion from "./Accordion/Accordion";
 import WaterDrop from "./WaterDrop/WaterDrop";
+import { StylesContext, StylesProvider } from "./StylesProvider/StylesProvider";
 
 export {
   WaterDrop,
@@ -16,4 +17,6 @@ export {
   Picker,
   Toast,
   Accordion,
+  StylesContext,
+  StylesProvider,
 };

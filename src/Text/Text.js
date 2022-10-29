@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Text as RNText, TextProps } from "react-native";
+import { StylesContext } from "../StylesProvider/StylesProvider";
 
 const constan = {
   Text_XXL: 28,
@@ -37,6 +38,7 @@ const constan = {
 
 const Text = ({ fontSize, color, mb, style = {}, children, ...props }) => {
   let customStyle = {};
+  const { GlobalStyles } = React.useContext(StylesContext);
 
   if (fontSize == "XXL") fontSize = constan.Text_XXL;
   else if (fontSize == "XL") fontSize = constan.Text_XL;
@@ -55,7 +57,11 @@ const Text = ({ fontSize, color, mb, style = {}, children, ...props }) => {
   customStyle.marginBottom = mb ? 14 : 0;
 
   return (
-    <RNText {...props} selectable={true} style={[customStyle, style]}>
+    <RNText
+      {...props}
+      selectable={true}
+      style={[customStyle, GlobalStyles, style]}
+    >
       {children}
     </RNText>
   );
