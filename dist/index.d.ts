@@ -6,4 +6,6 @@ import ScrollPicker from "./ScrollPicker/ScrollPicker";
 import Picker from "./Picker/Picker";
 import Toast from "./Toast/Toast";
 import Accordion from "./Accordion/Accordion";
-export { WaterDrop, Text, Swiper, Images, ScrollPicker, Picker, Toast, Accordion };
+import { StylesContext } from "./StylesProvider/StylesProvider";
+import { StylesProvider } from "./StylesProvider/StylesProvider";
+export { WaterDrop, Text, Swiper, Images, ScrollPicker, Picker, Toast, Accordion, StylesContext, StylesProvider };
