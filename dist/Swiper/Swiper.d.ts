@@ -1,9 +1,9 @@
 export default Swiper;
 export type Props = {
-    contentStyle: import("react-native").ViewStyle;
+    contentStyle: any;
     data: string[];
 };
-export type AllProps = FlatListProps<any> & Props;
+export type AllProps = FlatListProps & Props;
 /**
  * @typedef Props
  * @type {object}
@@ -20,12 +20,12 @@ declare class Swiper {
         sizeHeight: any;
         pages: any;
     };
-    animatedValue: Animated.Value;
+    animatedValue: any;
     pageIndex: number;
     onScrollEnd: (e: any) => void;
     getParallaxStyles(i: any): {
         transform: {
-            translateX: Animated.AnimatedInterpolation;
+            translateX: any;
         }[];
     };
     onLayoutSetWidth: (e: any) => void;
@@ -35,17 +35,14 @@ declare class Swiper {
     _renderItem: ({ item, index: i }: {
         item: any;
         index: any;
-    }) => JSX.Element;
-    _renderDot(): JSX.Element;
-    render(): JSX.Element;
-    refFlatlist: FlatList<unknown> | Animated.LegacyRef<FlatList<unknown>>;
+    }) => any;
+    _renderDot(): any;
+    render(): any;
+    refFlatlist: any;
 }
 declare namespace Swiper {
     export { SwiperProps as propTypes };
 }
-import { FlatListProps } from "react-native";
-import { Animated } from "react-native";
-import { FlatList } from "react-native";
 declare namespace SwiperProps {
     const data: any;
     const contentStyle: any;

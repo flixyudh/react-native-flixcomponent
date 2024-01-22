@@ -1,28 +1,32 @@
 // import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
   Image,
   View,
   ViewProps,
-} from "react-native";
-import { WaterDrop } from "../index";
+} from 'react-native';
+import {WaterDrop} from '../index';
 
-const window = Dimensions.get("window");
+const window = Dimensions.get('window');
+
+var defaultErrorImage;
 
 const RenderWithLoading = ({
   children,
   isLoading,
   width,
   height,
-  ...props
+  renderLoading,
+  loadingWaterDrop,
+  style,
 }) => {
   const LoadingIndicator = () => {
-    if (props.renderLoading) return props.renderLoading;
-    if (props.loadingWaterDrop) return <WaterDrop />;
-    else return <ActivityIndicator size={"large"} color="orangered" />;
+    if (renderLoading) return renderLoading;
+    if (loadingWaterDrop) return <WaterDrop size={width / 4} />;
+    else return <ActivityIndicator size={'large'} color="orangered" />;
   };
 
   if (isLoading) {
@@ -32,11 +36,11 @@ const RenderWithLoading = ({
           {
             width,
             height,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#ccc",
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#ccc',
           },
-          props.style,
+          style,
         ]}
       >
         <LoadingIndicator />
@@ -54,8 +58,10 @@ const RenderWithLoading = ({
  * @param {number} props.height - set `Height` of image
  * @param {ViewProps} props.style - set `Height` of image
  * @param {boolean} props.loadingWaterDrop - replace `ActivityIndicator` with `WaterDrop` when loading image
+ * @param {boolean} props.loadingWidth - set width of loading component
+ * @param {boolean} props.loadingHeight - set height of loading component
  */
-const Images = (props) => {
+const Images = props => {
   const [width, setWidth] = useState(props.width);
   const [height, setHeight] = useState(props.height);
   const [isLoading, setIsLoading] = useState(true);
@@ -65,7 +71,7 @@ const Images = (props) => {
   const tempPropsWidth = useRef(props.width).current;
   const tempPropsHeight = useRef(props.height).current;
 
-  const SetSize = (size) => {
+  const SetSize = size => {
     if (props.width && !props.height)
       setHeight(size.height * (props.width / size.width));
     else if (!props.width && props.height)
@@ -78,20 +84,20 @@ const Images = (props) => {
   };
 
   const InitImage = () => {
-    let isSourceURL = typeof source === "string";
+    let isSourceURL = typeof source === 'string';
     if (isSourceURL) {
       Image.getSize(
         source,
-        (width, height) => SetSize({ width, height }),
-        (err) => {
+        (width, height) => SetSize({width, height}),
+        err => {
           console.error(err);
           setIsError(true);
           setIsLoading(false);
-        }
+        },
       );
     } else {
       const detailSource = Image.resolveAssetSource(
-        source || require("./errorImage.png")
+        source || defaultErrorImage,
       );
       SetSize(detailSource);
     }
@@ -110,14 +116,14 @@ const Images = (props) => {
       InitImage();
     } else if (props.width && props.height) {
       throw new Error(
-        "Cannot set width and height, you can only use one of them, and put the rest inside style"
+        'Cannot set width and height, you can only use one of them, and put the rest inside style',
       );
     }
   });
 
   useEffect(() => {
     if (isError) {
-      setSource(require("./errorImage.png"));
+      setSource(defaultErrorImage);
     }
   }, [isError]);
 
@@ -128,11 +134,16 @@ const Images = (props) => {
 
   if (props.children)
     return (
-      <RenderWithLoading isLoading={isLoading} {...props}>
+      <RenderWithLoading
+        isLoading={isLoading}
+        width={props.loadingWidth || width}
+        height={props.loadingHeight || height}
+        {...props}
+      >
         <Image
-          source={typeof source === "string" ? { uri: source } : source}
-          style={[{ width, height }, props.style]}
-          imageStyle={[{ width, height }, props.imageStyle]}
+          source={typeof source === 'string' ? {uri: source} : source}
+          style={[{width, height}, props.style]}
+          imageStyle={[{width, height}, props.imageStyle]}
         >
           {props.children}
         </Image>
@@ -140,10 +151,15 @@ const Images = (props) => {
     );
   else {
     return (
-      <RenderWithLoading isLoading={isLoading} width={width} height={height}>
+      <RenderWithLoading
+        isLoading={isLoading}
+        width={props.loadingWidth || width}
+        height={props.loadingHeight || height}
+        {...props}
+      >
         <Image
-          source={typeof source === "string" ? { uri: source } : source}
-          style={[{ width, height }, props.style]}
+          source={typeof source === 'string' ? {uri: source} : source}
+          style={[{width, height}, props.style]}
         />
       </RenderWithLoading>
     );
@@ -167,5 +183,9 @@ const ImageDefaultProps = {
 
 Images.propTypes = ImageProps;
 Images.defaultProps = ImageDefaultProps;
+
+Images.setErrorImage = image => {
+  defaultErrorImage = image || require('./errorImage.png');
+};
 
 export default Images;

@@ -8,6 +8,8 @@ export default Images;
  * @param {number} props.height - set `Height` of image
  * @param {ViewProps} props.style - set `Height` of image
  * @param {boolean} props.loadingWaterDrop - replace `ActivityIndicator` with `WaterDrop` when loading image
+ * @param {boolean} props.loadingWidth - set width of loading component
+ * @param {boolean} props.loadingHeight - set height of loading component
  */
 declare function Images(props: {
     source: string | number;
@@ -15,12 +17,14 @@ declare function Images(props: {
     height: number;
     style: ViewProps;
     loadingWaterDrop: boolean;
-}): JSX.Element;
+    loadingWidth: boolean;
+    loadingHeight: boolean;
+}): any;
 declare namespace Images {
     export { ImageProps as propTypes };
     export { ImageDefaultProps as defaultProps };
+    export function setErrorImage(image: any): void;
 }
-import { ViewProps } from "react-native";
 declare namespace ImageProps {
     const source: any;
     const width: any;

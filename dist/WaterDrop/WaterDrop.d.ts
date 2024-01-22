@@ -13,7 +13,7 @@ declare function WaterDrop({ delay, size, color }: {
     delay?: number;
     size?: number;
     color?: string;
-}): JSX.Element;
+}): any;
 declare namespace WaterDrop {
     export { WaterDropPropsType as propTypes };
     export { WaterDropPropsDefault as defaultProps };

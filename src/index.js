@@ -1,22 +1,27 @@
+import Accordion from "./Accordion/Accordion";
+import Button from "./Button/Button";
+import useTheme from "./Hook/useTheme";
+import useModal from "./Hook/useModal";
+import useSnackbar from "./Hook/useSnackbar";
 import Images from "./Images/Images";
 import Picker from "./Picker/Picker";
+import FlixProdiver from "./Provider/FlixProdiver";
 import ScrollPicker from "./ScrollPicker/ScrollPicker";
 import Swiper from "./Swiper/Swiper";
 import Text from "./Text/Text";
-import Toast from "./Toast/Toast";
-import Accordion from "./Accordion/Accordion";
 import WaterDrop from "./WaterDrop/WaterDrop";
-import { StylesContext, StylesProvider } from "./StylesProvider/StylesProvider";
 
 export {
-  WaterDrop,
-  Text,
-  Swiper,
-  Images,
-  ScrollPicker,
-  Picker,
-  Toast,
   Accordion,
-  StylesContext,
-  StylesProvider,
+  FlixProdiver,
+  Images,
+  Picker,
+  ScrollPicker,
+  Swiper,
+  Button,
+  Text,
+  WaterDrop,
+  useTheme,
+  useModal,
+  useSnackbar,
 };

@@ -21,12 +21,11 @@ declare function Picker(props: {
     itemHeight?: number;
     renderItem?: ReactElement;
     labelKey?: string;
-}): JSX.Element;
+}): any;
 declare namespace Picker {
     export { PickerProps as propTypes };
     export { PickerDefaultProps as defaultProps };
 }
-import { ReactElement } from "react";
 declare namespace PickerProps {
     const data: any;
     const onChange: any;

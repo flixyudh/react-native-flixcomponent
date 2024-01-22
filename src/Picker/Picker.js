@@ -6,14 +6,9 @@ import React, {
   useState,
   ReactElement,
 } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import PropTypes from "prop-types";
+import { Text } from "../index";
 
 function areEqual(prevP, nextP) {
   const prevValue = prevP.labelKey

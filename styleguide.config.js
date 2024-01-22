@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const { version } = require("./package");
+const { printServerInstructions } = require("./styleguidist.console");
 
 module.exports = {
   styleguideDir: "docs",
@@ -13,7 +14,7 @@ module.exports = {
   // components: "src/**/[A-Z]*.js",
   components: "src/**/*.js",
   ignore: ["src/index.js"],
-  skipComponentsWithoutExample: true,
+  // skipComponentsWithoutExample: true,
   template: {
     favicon: "assets/logo.png",
   },
@@ -26,6 +27,7 @@ module.exports = {
   moduleAliases: {
     FlixComponent: path.resolve(__dirname, "src"),
   },
+  printServerInstructions,
   webpackConfig: {
     resolve: {
       // auto resolves any react-native import as react-native-web

@@ -17,11 +17,11 @@ declare function ScrollPicker(props: {
         }> | any[];
     };
     showDate: boolean;
-    headerComponent?: import("react").ReactElement;
-    footerComponent?: import("react").ReactElement;
+    headerComponent?: any;
+    footerComponent?: any;
     onChange?: Function;
-    style?: import("react-native").ViewProps;
-}): JSX.Element;
+    style?: any;
+}): any;
 declare namespace ScrollPicker {
     export { ScrollPickerProps as propTypes };
     export { ScrollPickerDefaultProps as defaultProps };

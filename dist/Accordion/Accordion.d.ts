@@ -19,12 +19,11 @@ declare function Accordion({ children, renderTitle, expanded, animatedDuration, 
     titleStyle?: ViewProps;
     easing?: any;
     renderIcon?: ReactElement;
-}): JSX.Element;
+}): any;
 declare namespace Accordion {
     export { AccordionProps as propTypes };
     export { AccordionDefaultProps as defaultProps };
 }
-import { ViewProps } from "react-native";
 declare namespace AccordionProps {
     const renderTitle: any;
     const expanded: any;
