@@ -1,6 +1,6 @@
 {
   "name": "react-native-flixcomponent",
-  "version": "2.0.0",
+  "version": "2.0.1-rc.0",
   "description": "React Native Flix Custom Component",
   "main": "src/index",
   "react-native": "src/index",
